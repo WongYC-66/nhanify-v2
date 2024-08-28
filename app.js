@@ -1,4 +1,7 @@
-const { CLIENT_SECRET, REDIRECT_URI, CLIENT_ID, HOST, PORT, SESSION_SECRET } =
+if (process.env.NODE_ENV != 'production')
+  require('dotenv').config()
+
+var { CLIENT_SECRET, REDIRECT_URI, CLIENT_ID, HOST, PORT, SESSION_SECRET } =
   process.env;
 const express = require("express");
 const app = express();
@@ -20,6 +23,8 @@ const {
 const MSG = require("./lib/msg.json");
 const ITEMS_PER_PAGE = 5;
 const PAGE_OFFSET = 2;
+
+
 
 app.set("views", "./views");
 app.set("view engine", "pug");
@@ -933,6 +938,15 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(PORT, HOST, () => {
-  console.log(`🎵 Nhanify music ready to rock on http://${HOST}:${PORT} 🎵`);
-});
+// 
+var http = require('http');
+
+var port = process.env.PORT || '3000'
+app.set('port', port);
+
+var server = http.createServer(app);
+
+
+server.listen(port);
+// console.log(`🎵 Nhanify music ready to rock on http://${HOST}:${PORT} 🎵`);
+console.log(`🎵 Nhanify music ready to rock on http://localhost:${port} 🎵`);
