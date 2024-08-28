@@ -7,13 +7,13 @@
     "lib": "lib"
   },
   "scripts": {
+    "start": "node app.js",
+    "remakedbv2": "npx node lib/remakeDB.js",
+    "dev": "nodemon app.js",
     "prettier": "npx prettier . --write",
     "test": "jest --verbose",
-    "start": "node app.js",
     "startv1": "nodemon --env-file=.env app.js",
-    "dev": "nodemon app.js",
-    "remakedb": "psql -d nhanify < lib/schema_data.sql",
-    "remakedbv2": "npx node lib/remakeDB.js"
+    "remakedb": "psql -d nhanify < lib/schema_data.sql"
   },
   "author": "",
   "license": "ISC",
