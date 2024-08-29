@@ -70,8 +70,22 @@ app.use((req, res, next) => {
 });
 
 app.get("/twitchAuth", (req, res) => {
+  // res.redirect(
+  //   `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=http://localhost:3002/twitchAuthResponse&scope=user:read:email&state=c3ab8aa609ea11e793ae92361f002671&nonce=c3ab8aa609ea11e793ae92361f002671`,
+  // );
+  // console.log(`https://id.twitch.tv/oauth2/authorize
+  //     ?response_type=code
+  //     &client_id=${CLIENT_ID}
+  //     &redirect_uri=${REDIRECT_URI}
+  //     &scope=user:read:email
+  //     &state=c3ab8aa609ea11e793ae92361f002671`.replace(/\s+/g, ''))
   res.redirect(
-    `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=http://localhost:3002/twitchAuthResponse&scope=user:read:email&state=c3ab8aa609ea11e793ae92361f002671&nonce=c3ab8aa609ea11e793ae92361f002671`,
+    `https://id.twitch.tv/oauth2/authorize
+      ?response_type=code
+      &client_id=${CLIENT_ID}
+      &redirect_uri=${REDIRECT_URI}
+      &scope=user:read:email
+      &state=c3ab8aa609ea11e793ae92361f002671`.replace(/\s+/g, '')
   );
 });
 
@@ -89,6 +103,7 @@ app.get("/twitchAuthResponse", async (req, res) => {
     body: new URLSearchParams(payload).toString(),
   });
   const response = await token.json();
+  // console.log({response})
   const authUser = await fetch("https://api.twitch.tv/helix/users", {
     method: "GET",
     headers: {
@@ -97,13 +112,15 @@ app.get("/twitchAuthResponse", async (req, res) => {
     },
   });
   const responseAuthUser = await authUser.json();
-  console.log({ responseAuthUser });
+  // console.log(responseAuthUser.data);
+  // return
+  // 
   if (responseAuthUser.message === "Invalid OAuth token")
     return res.render("sigin");
   const username = responseAuthUser.data[0].display_name;
-  console.log({ username });
+  // console.log({ username });
   const user = await persistence.findUser(username);
-  console.log({ user });
+  // console.log({ user });
   if (!user) {
     req.flash("errors", "No account associated with the username. ");
     req.session.twitchUsername = username;
