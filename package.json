@@ -8,12 +8,12 @@
   },
   "scripts": {
     "start": "node app.js",
-    "remakedbv2": "npx node lib/remakeDB.js",
     "dev": "nodemon app.js",
     "prettier": "npx prettier . --write",
     "test": "jest --verbose",
     "startv1": "nodemon --env-file=.env app.js",
-    "remakedb": "psql -d nhanify < lib/schema_data.sql"
+    "remakedb": "psql -d nhanify < lib/schema_data.sql",
+    "remakedbV2": "node lib/remakeDB.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +25,6 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.18.0",
     "express-validator": "^7.1.0",
-    "node": "^22.7.0",
     "pg": "^8.12.0",
     "pug": "^3.0.2"
   },
